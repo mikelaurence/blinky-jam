@@ -4,7 +4,7 @@ require './pattern'
 
 @blinky = Blinky.new
 
-color = Color.new(0, 1.0, 0)
+color = Color.new(0, 1.0, 1.0)
 pattern = Pattern::SolidPump.new(color, 30)
 
 t = Time.now
