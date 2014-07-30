@@ -1,19 +1,27 @@
 require './color'
 require './blinky'
-require './patterns'
+require './pattern'
 
 @blinky = Blinky.new
 
-color = Color.new(1.0, 0, 0)
-pattern = Pattern::Solid.new(color, 0.5)
+color = Color.new(0, 1.0, 0)
+pattern = Pattern::SolidPump.new(color, 30)
+
+t = Time.now
 
 while true
-  pattern.hit
-  pattern.width.times{ |c| @blinky.pixel pattern.color(c) }
-  @blinky.refresh
+  if (Time.now - t) > Pattern.tempo / 60.0
+    pattern.hit
+    t = Time.now
+  end
 
-  color.r -= 1
-  color.r = 255 if color.r == 0
+  pattern.step 0.01
+  pattern.width.times do |c|
+    if color = pattern.color(c)
+      @blinky.pixel color
+    end
+  end
+  @blinky.refresh
 
   sleep 0.01
 end

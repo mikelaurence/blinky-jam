@@ -36,7 +36,11 @@ class Color
   end
 
   def data
-    @data ||= "#{(r_byte}#{g_byte}#{b_byte}"
+    @data ||= "#{r_byte}#{g_byte}#{b_byte}"
+  end
+
+  def dup
+    self.class.new @r, @g, @b
   end
 
 end
