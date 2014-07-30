@@ -22,7 +22,7 @@ class Pattern
     end
 
     def tempo_delta(delta)
-      Pattern.tempo / 60.0 * delta
+      delta / (30.0 / Pattern.tempo)
     end
 
   end
@@ -39,11 +39,12 @@ class Pattern
 
     def initialize(colors, width)
       super
+      @index = 0
       @pump = 0
     end
 
     def color(c)
-      color = @colors[0].dup
+      color = @colors[@index].dup
       color.r -= @pump
       color.g -= @pump
       color.b -= @pump
@@ -52,6 +53,8 @@ class Pattern
 
     def hit(power = 1.0)
       @pump = 0
+      @index += 1
+      @index = 0 if @index >= @colors.size
     end
 
     def step(delta)
