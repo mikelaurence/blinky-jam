@@ -10,21 +10,33 @@ class Color
 
   def r=(val = 0)
     @data = nil
-    @r = val < 0 ? 0 : val > 254 ? 254 : val
+    @r = val < 0 ? 0 : val > 1.0 ? 1.0 : val
   end
 
   def g=(val = 0)
     @data = nil
-    @g = val < 0 ? 0 : val > 254 ? 254 : val
+    @g = val < 0 ? 0 : val > 1.0 ? 1.0 : val
   end
 
   def b=(val = 0)
     @data = nil
-    @b = val < 0 ? 0 : val > 254 ? 254 : val
+    @b = val < 0 ? 0 : val > 1.0 ? 1.0 : val
+  end
+
+  def r_byte
+    (@r * 254).to_i.chr
+  end
+
+  def g_byte
+    (@g * 254).to_i.chr
+  end
+
+  def b_byte
+    (@b * 254).to_i.chr
   end
 
   def data
-    @data ||= "#{r.chr}#{g.chr}#{b.chr}"
+    @data ||= "#{(r_byte}#{g_byte}#{b_byte}"
   end
 
 end

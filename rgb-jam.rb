@@ -1,12 +1,15 @@
 require './color'
 require './blinky'
+require './patterns'
 
 @blinky = Blinky.new
 
-color = Color.new(255, 0, 0)
+color = Color.new(1.0, 0, 0)
+pattern = Pattern::Solid.new(color, 0.5)
 
 while true
-  60.times{ @blinky.pixel color }
+  pattern.hit
+  pattern.width.times{ |c| @blinky.pixel pattern.color(c) }
   @blinky.refresh
 
   color.r -= 1
