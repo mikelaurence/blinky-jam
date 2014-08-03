@@ -6,12 +6,16 @@ class Pattern
     @tempo
   end
 
+  def self.beat
+    60.0 / Pattern.tempo
+  end
+
   class Base
 
     attr_accessor :child, :mod
 
     def pixel(i)
-      child_pixel i
+      nil
     end
 
     def child_pixel(i)
@@ -48,7 +52,7 @@ class Pattern
     end
 
     def pixel(i)
-      @color
+      @color.dup
     end
 
   end
@@ -79,8 +83,29 @@ class Pattern
 
     def pixel(i)
       if pix = super
-        pix.a = (i - range.min) / (range.max - range.min).to_f < mod(0) ? 1.0 : 0
-        pix.a = 1.0 - pix.a if @reversed
+        blank = (i - range.min) / (range.max - range.min).to_f > mod(0)
+        blank = !blank if reversed
+        pix.a *= 0 if blank
+        pix
+      end
+    end
+
+  end
+
+  class Fade < Base
+
+    def mod(type, amount = nil)
+      @modded_at = Time.now
+      super
+    end
+
+    def pixel(i)
+      if pix = child_pixel(i)
+        if @modded_at
+          time = Time.now - @modded_at
+          lerp = 1.0 - (time / Pattern.beat)
+          pix.a *= lerp
+        end
         pix
       end
     end
