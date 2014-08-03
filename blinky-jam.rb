@@ -4,6 +4,7 @@ require './pattern'
 
 @blinky = ENV['TEST'] ? Blinky::Test.new : Blinky::Serial.new
 
+black = Color.new(0, 0, 0)
 cyan = Color.new(0, 1.0, 1.0)
 blue = Color.new(0, 0, 1.0)
 greenish = Color.new(0, 1.0, 0.2)
@@ -36,9 +37,8 @@ while true
 
   @blinky.paint do |blinky|
     60.times do |c|
-      if pixel = pattern.pixel(c)
-        blinky.pixel pixel
-      end
+      pixel = pattern.pixel(c) || black
+      blinky.pixel pixel
     end
   end
 

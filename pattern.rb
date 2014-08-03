@@ -24,7 +24,7 @@ class Pattern
     def mod(type, amount = nil)
       @mod ||= {}
       @mod[type] = amount if amount
-      child.mod type, amount if amount
+      child.mod type, amount if child && amount
       @mod[type]
     end
 
