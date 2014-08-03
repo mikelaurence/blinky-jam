@@ -13,7 +13,7 @@ segment1 = Pattern::SlopeSegment.new(0..29)
 color1 = Pattern::Color.new(cyan)
 segment1.connect color1
 
-segment2 = Pattern::SlopeSegment.new(30..59, true)
+segment2 = Pattern::SlopeSegment.new(30..59, Pattern::MIRROR)
 color2 = Pattern::Color.new(greenish)
 segment2.connect color2
 
@@ -31,10 +31,10 @@ mod = 0.02
 while true
   delta = Time.now - last_t
 
-  if (Time.now - t) > 30.0 / Pattern.tempo
+  if (Time.now - t) > 15.0 / Pattern.tempo
     pattern.mod 0, mod
     t = Time.now
-    mod += 0.02
+    mod += 1/30.0
   end
 
   pattern.step delta

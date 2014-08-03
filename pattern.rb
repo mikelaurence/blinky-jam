@@ -1,5 +1,10 @@
 class Pattern
 
+  NORMAL = 1
+  MIRROR = 2
+  INVERSE = 3
+  INVERSE_MIRROR = 4
+
   @tempo = 100
 
   def self.tempo
@@ -74,17 +79,18 @@ class Pattern
 
   class SlopeSegment < Segment
 
-    attr_accessor :reversed
+    attr_accessor :type
 
-    def initialize(range, reversed = false)
+    def initialize(range, type = Pattern::NORMAL)
       @range = range
-      @reversed = reversed
+      @type = type
     end
 
     def pixel(i)
       if pix = super
+        i = range.max - (i - range.min) if type == Pattern::MIRROR || type == Pattern::INVERSE_MIRROR
         blank = (i - range.min) / (range.max - range.min).to_f > mod(0)
-        blank = !blank if reversed
+        blank = !blank if type == Pattern::INVERSE || type == Pattern::INVERSE_MIRROR
         pix.a *= 0 if blank
         pix
       end
@@ -137,63 +143,5 @@ class Pattern
     end
 
   end
-
-  # class Base
-
-  #   attr_accessor :colors, :width
-
-  #   def initialize(colors, width)
-  #     @colors = [*colors]
-  #     @width = width
-  #   end
-
-  #   def hit(power = 1.0)
-  #   end
-
-  #   def step(delta)
-  #   end
-
-  #   def tempo_delta(delta)
-  #     delta / (30.0 / Pattern.tempo)
-  #   end
-
-  # end
-
-  # class Solid < Base
-
-  #   def color(c)
-  #     @colors[0]
-  #   end
-
-  # end
-
-  # class SolidPump < Base
-
-  #   def initialize(colors, width)
-  #     super
-  #     @index = 0
-  #     @pump = 0
-  #   end
-
-  #   def color(c)
-  #     color = @colors[@index].dup
-  #     color.r -= @pump
-  #     color.g -= @pump
-  #     color.b -= @pump
-  #     color
-  #   end
-
-  #   def hit(power = 1.0)
-  #     @pump = 0
-  #     @index += 1
-  #     @index = 0 if @index >= @colors.size
-  #   end
-
-  #   def step(delta)
-  #     @pump += tempo_delta(delta)
-  #   end
-
-  # end
-
 
 end
