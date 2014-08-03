@@ -29,6 +29,18 @@ class Color
     @a = val < 0 ? 0 : val > 1.0 ? 1.0 : val
   end
 
+  def r_rgb
+    (@r * @a * 255).to_i
+  end
+
+  def g_rgb
+    (@g * @a * 255).to_i
+  end
+
+  def b_rgb
+    (@b * @a * 255).to_i
+  end
+
   def r_byte
     (@r * @a * 254).to_i.chr
   end

@@ -25,7 +25,7 @@ class Pattern
       @mod ||= {}
       @mod[type] = amount if amount
       child.mod type, amount if child && amount
-      @mod[type]
+      @mod[type] || 0
     end
 
     def connect(*children)
@@ -34,6 +34,7 @@ class Pattern
         parent.child = c
         parent = c
       end
+      self
     end
 
   end
@@ -78,7 +79,7 @@ class Pattern
 
     def pixel(i)
       if pix = super
-        pix.a = (i - range.min).to_f / (range.max - range.min)
+        pix.a = (i - range.min) / (range.max - range.min).to_f < mod(0) ? 1.0 : 0
         pix.a = 1.0 - pix.a if @reversed
         pix
       end

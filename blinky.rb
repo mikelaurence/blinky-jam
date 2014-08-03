@@ -36,7 +36,7 @@ module Blinky
   class Test
 
     def pixel(color)
-      print Paint['█', [(color.r * 255).to_i, (color.g * 255).to_i, (color.b * 255).to_i]]
+      print Paint['█', [color.r_rgb, color.g_rgb, color.b_rgb]]
     end
 
     def refresh

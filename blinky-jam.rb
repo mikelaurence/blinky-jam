@@ -17,7 +17,11 @@ segment2 = Pattern::SlopeSegment.new(30..59, true)
 color2 = Pattern::Color.new(greenish)
 segment2.connect color2
 
+color3 = Pattern::Color.new(Color.new(1.0, 0, 1.0))
+
 pattern = Pattern::Join.new(segment1, segment2)
+
+pattern = Pattern::SlopeSegment.new(0..59).connect(color3)
 
 t = Time.now
 last_t = t
