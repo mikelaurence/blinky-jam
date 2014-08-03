@@ -8,7 +8,7 @@ class Pattern
 
   class Base
 
-    attr_accessor :child, :power
+    attr_accessor :child, :mod
 
     def pixel(i)
       child_pixel i
@@ -21,7 +21,11 @@ class Pattern
     def step(delta)
     end
 
-    def mod(type, amount)
+    def mod(type, amount = nil)
+      @mod ||= {}
+      @mod[type] = amount if amount
+      child.mod type, amount if amount
+      @mod[type]
     end
 
     def connect(*children)
@@ -94,6 +98,14 @@ class Pattern
       @patterns.each do |pattern|
         if pix = pattern.pixel(i)
           return pix
+        end
+      end
+    end
+
+    def mod(type, amount = nil)
+      if amount
+        @patterns.each do |pattern|
+          pattern.mod type, amount
         end
       end
     end
